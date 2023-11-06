@@ -10,6 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator pothos {
+  provider     = "prisma-pothos-types"
+  // Match client output location from above
+  clientOutput = ".prisma/client"
+  output       = "../src/schema/__generated__/objects.d.ts"
+}
+
+generator pothosCrud {
+  provider = "prisma-generator-pothos-codegen"
+  generatorConfigPath = "../src/schema/configs.js"
+}
+
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
