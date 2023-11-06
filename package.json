@@ -6,15 +6,17 @@
   "main": "pathToMain",
   "dependencies": {
     "@pothos/core": "^3.38.0",
+    "@prisma/client": "^5.5.2",
     "bun-types": "^1.0.9",
     "graphql": "^16.8.1",
-    "graphql-yoga": "^5.0.0"
+    "graphql-yoga": "^5.0.0",
+    "prisma": "^5.5.2"
   },
   "scripts": {
     "start": "bun src/index.ts",
     "dev": "bun --watch src/index.ts",
     "test": "bun test --watch",
-    "testspecific": "bun test object-dotify/diffArray.test.ts --watch"
+    "prisma:generate": "bunx prisma generate"
   },
   "devDependencies": {},
   "compilerOptions": {
