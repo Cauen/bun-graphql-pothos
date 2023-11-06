@@ -1,5 +1,5 @@
 # Use the offical Bun image
-FROM jarredsumner/bun:edge
+FROM oven/bun
 
 # Set the Docker working directory as /usr/src/app
 # Copy everything from here into Docker's /usr/src/app
