@@ -10,7 +10,7 @@ COPY . /usr/src/app
 RUN bun install
 
 # The port that Bao.js will listen on
-RUN bun x prisma migrate deploy
+RUN bun x prisma generate
 
 EXPOSE 3000
 
