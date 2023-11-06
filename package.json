@@ -5,11 +5,13 @@
   "version": "1.0.0",
   "main": "pathToMain",
   "dependencies": {
+    "@elysiajs/graphql-yoga": "^0.7.1",
     "@graphql-yoga/plugin-sofa": "^3.0.0",
     "@pothos/core": "^3.38.0",
     "@pothos/plugin-prisma": "^3.61.0",
     "@prisma/client": "^5.5.2",
     "bun-types": "^1.0.9",
+    "elysia": "^0.7.21",
     "graphql": "^16.8.1",
     "graphql-yoga": "^5.0.0",
     "prisma": "^5.5.2",
@@ -21,7 +23,7 @@
     "test": "bun test --watch",
     "prisma:generate": "bunx prisma generate"
   },
-  "devDependencies": { 
+  "devDependencies": {
     "typescript": "^5.2.2"
   },
   "compilerOptions": {

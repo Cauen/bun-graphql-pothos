@@ -1,50 +1,21 @@
-import { createSchema, createYoga, useReadinessCheck } from 'graphql-yoga'
+import { createYoga } from 'graphql-yoga'
 import { schema } from './schema'
-import { useSofa } from '@graphql-yoga/plugin-sofa'
 
-const oldSchema = createSchema({
-  typeDefs: /* GraphQL */ `
-    type Query {
-      greetings: String
-    }
-  `,
-  resolvers: {
-    Query: {
-      greetings: () => 'Hello from Yoga in a Bun app!'
-    }
-  }
-})
-
-const yoga = createYoga({
+export const yoga = createYoga({
   schema,
-  plugins: [
-    // useSofa({
-    //   basePath: '/rest',
-
-    //   swaggerUI: {
-    //     endpoint: '/rest/swagger'
-        
-    //   },
-    // }),
-    // useReadinessCheck({
-    //   endpoint: '/health', // default
-    //   check: async (arg) => {
-    //     // if resolves, respond with 200 OK
-    //     // if throw, respond with 503 Service Unavailable and error message as plaintext in body
-    //     return false
-    //     return new Response(JSON.stringify({ access: true }))
-    //   }
-    // })
-  ]
+  cors: false,
+  plugins: []
 })
 
-const server = Bun.serve({
-  fetch: yoga,
-})
+import { Elysia } from 'elysia'
 
-console.info(
-  `Server is running on ${new URL(
-    yoga.graphqlEndpoint,
-    `http://${server.hostname}:${server.port}`
-  )}`
-)
+const graphqlPath = "/graphql"
+
+new Elysia()
+  .get('/', (() => `Olá`))
+  .get('/id/:id', (({ params: { id } }) => id))
+  .get(graphqlPath, async ({ request }) => yoga.fetch(request))
+  .post(graphqlPath, async ({ request }) => yoga.fetch(request), {
+    type: 'none'
+  })
+  .listen(3000)
