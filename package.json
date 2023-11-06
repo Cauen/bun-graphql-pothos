@@ -1,0 +1,23 @@
+{
+  "name": "name",
+  "description": "description",
+  "authors": "author",
+  "version": "1.0.0",
+  "main": "pathToMain",
+  "dependencies": {
+    "@pothos/core": "^3.38.0",
+    "bun-types": "^1.0.9",
+    "graphql": "^16.8.1",
+    "graphql-yoga": "^5.0.0"
+  },
+  "scripts": {
+    "start": "bun src/index.ts",
+    "dev": "bun --watch src/index.ts",
+    "test": "bun test --watch",
+    "testspecific": "bun test object-dotify/diffArray.test.ts --watch"
+  },
+  "devDependencies": {},
+  "compilerOptions": {
+    "types": ["bun-types"]
+  }
+}
