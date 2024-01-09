@@ -5,6 +5,9 @@ import { GraphQLError } from "graphql";
 
 builder.queryField("findFirstUserFake", (t) => t.prismaField({
   type: 'User',
+  authScopes: {
+    employee: true,
+  },
   resolve: async (query, root, args, ctx, info) =>
     prisma.user.findFirstOrThrow({
       // the `query` argument will add in `include`s or `select`s to
@@ -21,7 +24,11 @@ builder.mutationFields(t => ({
     args: {
       name: t.arg.string(),
     },
-    resolve: async (parent, { name }) => {
+    authScopes: {
+      employee: true,
+    },
+    resolve: async (parent, { name }, context, info) => {
+      const user = context.user
       if (name === "error") throw new GraphQLError("Invalid name")
 
       // create a new user

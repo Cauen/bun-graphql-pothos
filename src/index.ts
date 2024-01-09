@@ -18,4 +18,6 @@ new Elysia()
   .post(graphqlPath, async ({ request }) => yoga.fetch(request), {
     type: 'none'
   })
-  .listen(3000)
+  .listen(3000, () => {
+    console.log(`🚀 Server ready on http://localhost:3000${graphqlPath}`)
+  })
