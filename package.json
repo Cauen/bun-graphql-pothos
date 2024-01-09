@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "main": "pathToMain",
   "dependencies": {
+    "@elysiajs/cors": "0.7.2",
     "@elysiajs/graphql-yoga": "^0.7.1",
     "@graphql-yoga/plugin-sofa": "^3.0.0",
     "@pothos/core": "^3.38.0",

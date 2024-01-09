@@ -1,7 +1,11 @@
 import { prisma } from "../db";
 import { builder } from "./builder";
-import { generateAllCrud } from './__generated__/autocrud'
+import { generateAllCrud, generateAllMutations, generateAllObjects, generateAllQueries } from './__generated__/autocrud'
 import { GraphQLError } from "graphql";
+import z from "zod";
+
+import './User'
+import { CustomUser } from "./User/object";
 
 builder.queryField("findFirstUserFake", (t) => t.prismaField({
   type: 'User',
@@ -20,28 +24,39 @@ builder.queryField("findFirstUserFake", (t) => t.prismaField({
 }))
 
 builder.mutationFields(t => ({
-  createUserFake: t.string({
+  createUserFake: t.prismaField({
+    type: CustomUser,
     args: {
-      name: t.arg.string(),
+      name: t.arg.string({
+        validate: {
+          email: true,
+        }
+      }),
+      namex: t.arg.string({
+        validate: {
+          length: [10, { message: "Digite 10 caracteres" }],
+        }
+      }),
     },
     authScopes: {
-      employee: true,
+      public: true,
     },
-    resolve: async (parent, { name }, context, info) => {
-      const user = context.user
+    resolve: async (include, parent, { name }, context, info) => {
+      // const user = context.user
       if (name === "error") throw new GraphQLError("Invalid name")
 
       // create a new user
-      await prisma.user.create({
+      const created = await prisma.user.create({
         data: {
           name: "John Dough",
           email: `john-${Math.random()}@example.com`,
         },
       });
 
-      // count the number of users
-      const count = await prisma.user.count();
-      return `There are ${count} users in the database.`
+      // return `There are ${count} users in the database.`
+      return {
+        ...created,
+      }
     },
   }),
 }));
@@ -49,6 +64,8 @@ builder.mutationFields(t => ({
 // Defining schema roots
 builder.queryType({});
 builder.mutationType({});
-generateAllCrud()
+generateAllObjects({ exclude: ['User'] })
+generateAllQueries()
+generateAllMutations()
 
 export const schema = builder.toSchema();

@@ -1,10 +1,11 @@
 import { createYoga } from 'graphql-yoga'
 import { schema } from './schema'
+import { cors } from '@elysiajs/cors'
 
 export const yoga = createYoga({
   schema,
-  cors: false,
-  plugins: []
+  cors: true,
+  plugins: [],
 })
 
 import { Elysia } from 'elysia'
@@ -18,6 +19,7 @@ new Elysia()
   .post(graphqlPath, async ({ request }) => yoga.fetch(request), {
     type: 'none'
   })
+  .use(cors())
   .listen(3000, () => {
     console.log(`🚀 Server ready on http://localhost:3000${graphqlPath}`)
   })
